@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation=" http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/mvc
+    http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+
+	<context:component-scan
+		base-package="com.xworkz.appzone.controller" />
+
+	<mvc:annotation-driven /> 
+	
+	<context:property-placeholder
+		location="classpath:resources/properties/application.properties" />
+
+	<bean id="ds" class="org.apache.tomcat.dbcp.dbcp2.BasicDataSource">
+		<property name="driverClassName" value="${driver.classname}"></property>
+		<property name="url" value="${driver.url}"></property>
+		<property name="username" value="${driver.username}"></property>
+		<property name="password" value="${driver.password}"></property>
+	</bean>
+
+	<!-- ==================================================================================== -->
+	<bean id="factory"
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource" ref="ds"></property>
+		<property name="packagesToScan" value="com.xworkz.appzone" />
+		<!-- <property name="annotatedClasses"> <list> <value>com.xworkz.appzone.entity.login.LoginEntity</value> 
+			</list> </property> -->
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">true</prop>
+			</props>
+		</property>
+	</bean>
+	
+</beans>
